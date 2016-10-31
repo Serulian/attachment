@@ -12,9 +12,9 @@ var<int> attachmentCounter = 0
  */
 class Attachment<T> {
 	/**
-	 * attachmentId is the unique ID for the attachment.
+	 * propName is the unique property name for the attachment.
 	 */
-	var<string> attachmentId
+	var<string> propName
 
 	/**
 	 * Global creates an attachment with the given global ID. Two attachments with
@@ -22,7 +22,7 @@ class Attachment<T> {
 	 */
 	constructor Global(globalId string) {
 		return Attachment<T>{
-			attachmentId: `${globalId}-${attachmentCounter}`,
+			propName: `@@${globalId}`,
 		}
 	}
 
@@ -35,13 +35,7 @@ class Attachment<T> {
 		attachmentCounter = attachmentCounter + 1
 
 		return Attachment<T>{
-			attachmentId: `${prefix}-${attachmentCounter}`,
-		}
-	}
-
-	property<string> propName {
-		get {
-			return `@@${this.attachmentId}`
+			propName: `@@${prefix}-${attachmentCounter}`,
 		}
 	}
 
