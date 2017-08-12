@@ -1,4 +1,4 @@
-from webidl`github.com/Serulian/corelib:master` import Object, Boolean
+from webidl`@core` import Object, Boolean
 
 /**
  * attachmentCounter defines a counter for creating unique attachment names.
