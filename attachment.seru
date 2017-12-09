@@ -3,7 +3,7 @@ from webidl`@core` import Object, Boolean
 /**
  * attachmentCounter defines a counter for creating unique attachment names.
  */
-var<int> attachmentCounter = 0
+var attachmentCounter int = 0
 
 /**
  * Attachment defines a helper class for attaching an arbitrary value to another
@@ -14,16 +14,14 @@ class Attachment<T> {
 	/**
 	 * propName is the unique property name for the attachment.
 	 */
-	var<string> propName
+	var propName string
 
 	/**
 	 * Global creates an attachment with the given global ID. Two attachments with
 	 * the same global ID will return the same value.
 	 */
 	constructor Global(globalId string) {
-		return Attachment<T>{
-			propName: `@@${globalId}`,
-		}
+		return Attachment<T>{propName: `@@${globalId}`}
 	}
 
 	/**
@@ -34,12 +32,10 @@ class Attachment<T> {
 	constructor Unique(prefix string) {
 		attachmentCounter = attachmentCounter + 1
 
-		return Attachment<T>{
-			propName: `@@${prefix}-${attachmentCounter}`,
-		}
+		return Attachment<T>{propName: `@@${prefix}-${attachmentCounter}`}
 	}
 
-	operator<T?> Index(instance any) {
+	operator Index(instance any) T? {
 		return this.Get(instance)
 	}
 
@@ -51,16 +47,12 @@ class Attachment<T> {
 	 * Get returns the attachment's value on the given instance, if any. If the instance
 	 * is null, null is returned.
 	 */
-	function<T?> Get(instance any) {
-		if instance is null {
-			return null
-		}
+	function Get(instance any) T? {
+		if instance is null { return null }
 
 		propName := this.propName
-		found := instance.(Object)[&propName]
-		if found is null {
-			return null
-		}
+		found := (instance.(Object))[&propName]
+		if found is null { return null }
 
 		return found.(T?)
 	}
@@ -68,10 +60,8 @@ class Attachment<T> {
 	/**
 	 * Set sets the value on the given instance. If the instance is null, does nothing.
 	 */
-	function<void> Set(instance any, value T?) {
-		if instance is null {
-			return
-		}
+	function Set(instance any, value T?) {
+		if instance is null { return }
 
 		propName := this.propName
 		obj := instance.(Object)
